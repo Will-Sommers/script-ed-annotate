@@ -9,17 +9,24 @@
                  [om "0.5.1"]
                  [prismatic/dommy "0.1.2"]
                  [sablono "0.2.6"]
-                 [secretary "1.0.0"]]
+                 [secretary "1.0.0"]
+								 [ring/ring "1.2.1"]
+								 [compojure "1.1.6"]
+								 [fogus/ring-edn "0.2.0"]
+								 [cljs-ajax "0.2.3"]
+								 [ring-cors "0.1.0"]
+								 [clj-http "0.9.1"]
+								 [org.clojure/data.json "0.2.4"]]
 
   :plugins [[lein-cljsbuild "1.0.2"]]
 
-  :source-paths ["src"]
+  :source-paths ["src/script_ed_annotate/cljs"]
 
   :cljsbuild {
     :builds [{:id "script-ed-annotate"
-              :source-paths ["src"]
+              :source-paths ["src/script_ed_annotate/cljs"]
               :compiler {
-                :output-to "script_ed_annotate.js"
-                :output-dir "out"
+                :output-to "resources/public/js/main.js"
+                :output-dir "resources/public/js/out"
                 :optimizations :none
                 :source-map true}}]})
