@@ -13,7 +13,7 @@
 (defn generate-response [data & [status]]
   {:status (or status 200)
    :headers {"Content-Type" "application/edn"}
-   :body (json/write-str data)})
+   :body (json/write-str (doall (map #(update-in [:file-contents] deref) data)))})
 
 (def github-api-url "https://api.github.com/")
 
@@ -43,8 +43,10 @@
         response (github-request (github-repo-contents-url user repo sha))
         json-response (parse-response response)
         file-urls (map #(hash-map :url (:url %) :path (:path %)) (:tree json-response))]
-    (map #(hash-map :file-contents (github-request (:url %))
-                    :path (:path %)) file-urls)))
+    (doall
+     (map #(hash-map :file-contents (future (github-request (:url %)))
+                     :path (:path %))
+          file-urls))))
 
 (defn index []
   (file-response "public/html/index.html" {:root "resources"}))
