@@ -29,8 +29,8 @@
 
 (defn github-request [url]
   (client/get url
-              {:headers {"Accept" "application/vnd.github.3.raw"}}))
-                        ; "Authorization" "token 74b46c1fcc99ab6629a7c3c99636b379e4e9c13d"}}))
+              {:headers {"Accept" "application/vnd.github.3.raw"
+													"Authorization" "token 74b46c1fcc99ab6629a7c3c99636b379e4e9c13d"}}))
 
 (defn get-repo-head-sha [user repo]
   (let [response (github-request (github-sha-request-url user repo))
@@ -49,8 +49,10 @@
 (defn index []
   (file-response "public/html/index.html" {:root "resources"}))
 
+(def sample (get-repo-contents "will-sommers" "sojoban"))
+
 (defn send-api-request [user repo]
-  (let [files-response (get-repo-contents "will-sommers" "sojoban")]
+  (let [files-response  sample #_(get-repo-contents "will-sommers" "sojoban")]
     (generate-response files-response)))
 
 (defroutes routes

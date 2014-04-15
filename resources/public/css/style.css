@@ -4,6 +4,15 @@
 
 .sidebar {
     position: fixed;
-    width: 150px;
-    border: 1px solid red;
+    
+    height: 100%;
+    color: white;
+    background-color: #616161;
+}
+
+.logo {
+    width: 100%;
+    height: 40px;
+    color: white;
+    background-color: #616161;
 }

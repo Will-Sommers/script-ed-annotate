@@ -8,58 +8,84 @@
 (enable-console-print!)
 
 
-(def app-state (atom {:sidebar {:expanded false
-                                :repo-name "Sojoban"
-                                :files [{:name ".gitignore"}
-                                        {:name "index.html"}
-                                        {:name "script.js"}
-                                        {:name "style.css"}]}}))
+(def app-state {:displayed-files []
+                :display-welcome true
+                })
 
 
-(defn expand-sidebar []
-  )
+(defn expand-sidebar [data]
+  (om/transact! data :expanded #(not (:expanded @data))))
 
 (defn expanded? [data]
   (if (:expanded data)
-    {:left 0}
-    {:left -150}))
+    #js {:left 0}
+    #js {:left -250}))
+
+(defn select-file [control-chan data]
+  (let [path (:path data)
+        code (get-in data [:file-contents :body])]
+    (put! control-chan {:path path, :code code, :action :select-file})))
 
 (defn file-view  [data owner]
   (reify
     om/IRender
     (render [_]
-      (dom/div nil (:name data)))))
+      (dom/div #js {:onClick #(select-file (om/get-shared owner [:chans :controls-chan]) data)}
+               (:path data)))))
+
+(defn navbar-view [data owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div nil "testing"))))
 
 (defn sidebar-view [data owner]
   (reify
     om/IRender
     (render [_]
       (dom/div nil
-               (dom/div #js {:onClick expand-sidebar} "Annotate")
+               (dom/div #js {:onClick #(expand-sidebar data)
+                             :className "logo"} "Annotate")
                (dom/div #js {:className "sidebar"
                              :style (expanded? data)}
-                        (dom/div nil (:repo-name data))
+                        (dom/div nil (:name data))
                         (apply dom/ul nil
                                (om/build-all file-view (:files data))))))))
 
-(defn app-view [data owner]
+(defn main-view [data owner]
   (reify
     om/IRender
     (render [_]
-      (om/build sidebar-view (:sidebar data)))))
+      (dom/div nil "testin"))))
 
-(defn init []
-  (om/root
-   app-view
-   app-state
-   {:target (.getElementById js/document "app")}))
+(defn app-view [data owner]
+  (reify
+    om/IWillMount
+    (will-mount [_]
+      (go
+       (while true
+         (let [p (<! (om/get-shared owner [:chans :controls-chan]))]
+           (println p)))))
+    om/IRender
+    (render [_]
+      (dom/div nil
+               (om/build navbar-view data)
+               (om/build sidebar-view (->> (:resp data)
+                                           first))
+               (om/build main-view data)))))
 
-(init)
+(defn init [state]
+  (let [chans {:api-chan (chan)
+               :controls-chan (chan)}]
+    (om/root
+     app-view
+     state
+     {:target (.getElementById js/document "app")
+      :shared {:chans chans}})))
 
-#_(go
- (let [a (<! (GET "http://127.0.0.1:8080/user/will-sommers/repo/sojoban"))]
-   (println a)))
-
-
-
-
+(go
+ (let [a (<! (GET "http://127.0.0.1:8080/user/will-sommers/repo/sojoban"))
+       state (assoc app-state :resp [(merge {:name "sojoban"} {:files a})])]
+   (println state)
+   (init (atom state))
+   #_(println a)))
