@@ -56,7 +56,9 @@
   (reify
     om/IRender
     (render [_]
-      (dom/div nil "testin"))))
+      (dom/div nil 
+        (apply dom/ul nil
+          (map #(dom/li nil (:code %)) data))))))
 
 (defn app-view [data owner]
   (reify
@@ -64,15 +66,16 @@
     (will-mount [_]
       (go
        (while true
-         (let [p (<! (om/get-shared owner [:chans :controls-chan]))]
-           (println p)))))
+         (let [control (<! (om/get-shared owner [:chans :controls-chan]))]
+           (om/transact! data :displayed-files #(conj % control))))))
+
     om/IRender
     (render [_]
       (dom/div nil
                (om/build navbar-view data)
                (om/build sidebar-view (->> (:resp data)
                                            first))
-               (om/build main-view data)))))
+               (om/build main-view (:displayed-files data))))))
 
 (defn init [state]
   (let [chans {:api-chan (chan)

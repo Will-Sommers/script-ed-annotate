@@ -10,3 +10,4 @@ pom.xml
 .lein-plugins/
 .nrepl-port
 /src/script_ed_annotate/clj/env.clj
+*.sw*
