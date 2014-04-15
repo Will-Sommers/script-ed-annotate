@@ -66,5 +66,5 @@
        :access-control-allow-headers ["Content-Type"])
       wrap-edn-params))
 
-(defonce server
-  (run-jetty  #'app {:port 8080 :join? false}))
+(defn start-server! []
+  (run-jetty #'app {:port 8080 :join? false}))

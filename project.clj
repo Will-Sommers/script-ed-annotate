@@ -18,16 +18,17 @@
                  [org.clojure/data.json "0.2.4"]
                  [com.stuartsierra/component "0.2.1"]]
 
+  :main script-ed-annotate.system
 
-  ;; 
+  ;;
   ;; :resource-paths ["resources"]
-  
+
   :plugins [[lein-cljsbuild "1.0.2"]
             [cider/cider-nrepl "0.1.0-SNAPSHOT"]
             [com.cemerick/austin "0.1.4"]]
 
   ;;:source-paths ["src/script_ed_annotate/"]
-  
+
   :cljsbuild {
               :builds [{:id "dev"
                         :source-paths ["src/script_ed_annotate/cljs"]
@@ -36,4 +37,3 @@
                                    :output-dir "resources/public/js/out"
                                    :optimizations :none
                                    :source-map true}}]})
-
