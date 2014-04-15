@@ -18,8 +18,8 @@
 
 (defn expanded? [data]
   (if (:expanded data)
-    #js {:left 0}
-    #js {:left -250}))
+    #js {:display "inline-block"}
+    #js {:display "none"}))
 
 (defn select-file [control-chan data]
   (let [path (:path data)
@@ -56,7 +56,7 @@
   (reify
     om/IRender
     (render [_]
-      (dom/div nil 
+      (dom/div #js {:className "code"} 
         (apply dom/ul nil
           (map #(dom/li nil (:code %)) data))))))
 
