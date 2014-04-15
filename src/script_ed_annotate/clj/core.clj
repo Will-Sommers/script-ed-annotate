@@ -34,9 +34,9 @@
 
 (defn get-repo-head-sha [user repo]
   (let [response (github-request (github-sha-request-url user repo))
-              json-response (parse-response response)
-              sha (get-in json-response [:object :sha])]
-          sha))
+        json-response (parse-response response)
+        sha (get-in json-response [:object :sha])]
+    sha))
 
 (defn get-repo-contents [user repo]
   (let [sha (get-repo-head-sha user repo)
