@@ -1,0 +1,20 @@
+(ns script-ed-annotate.env)
+
+
+(def client-id "8bc6beca41a475a16c5ffab7b7308be65199a58a")
+
+
+(+ 1 1 3)
+
+(defn asdf []
+  (Reify
+    om/IRender
+    (render [_]
+      (dom/h1 nil
+              "yesting"
+              ))))
+
+(defn asdf []
+  "999")
+
+(asdf )
