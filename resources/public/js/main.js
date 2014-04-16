@@ -12,3 +12,5 @@ goog.addDependency("../cljs/core/async/impl/timers.js", ['cljs.core.async.impl.t
 goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.async.impl.ioc_helpers', 'cljs.core.async.impl.buffers', 'cljs.core', 'cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core.async.impl.protocols', 'cljs.core.async.impl.timers']);
 goog.addDependency("../script_ed_annotate/api.js", ['script_ed_annotate.api'], ['cljs.core', 'goog.net.XhrIo', 'cljs.core.async']);
 goog.addDependency("../script_ed_annotate/core.js", ['script_ed_annotate.core'], ['cljs.core', 'om.core', 'clojure.string', 'script_ed_annotate.api', 'om.dom', 'cljs.core.async']);
+goog.addDependency("../ankha/core.js", ['ankha.core'], ['cljs.core', 'goog.object', 'om.core', 'clojure.string', 'om.dom']);
+goog.addDependency("../script_ed_annotate/draggable.js", ['script_ed_annotate.draggable'], ['cljs.core', 'goog.events.EventType', 'om.core', 'om.dom', 'ankha.core', 'cljs.core.async', 'goog.events']);

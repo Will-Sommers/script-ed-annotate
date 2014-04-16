@@ -16,7 +16,8 @@
                  [ring-cors "0.1.0"]
                  [clj-http "0.9.1"]
                  [org.clojure/data.json "0.2.4"]
-                 [com.stuartsierra/component "0.2.1"]]
+                 [com.stuartsierra/component "0.2.1"]
+                 [ankha "0.1.1"]]
 
 
   ;; 

@@ -64,7 +64,7 @@
     (render [_] 
       (println data)
       (dom/div #js {:onClick #(mark-line data)
-                    :style (selected? "test")} data))))
+                    :style (selected? "tes")} data))))
 
 (defn file-view [data owner]
   (reify
