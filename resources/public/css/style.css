@@ -3,20 +3,17 @@
 }
 
 .sidebar {
-    float:left;
-    display: inline-block;
-    width: 250px; 
+    position: fixed; 
     height: 100%;
     color: white;
     background-color: #616161;
-    overflow: auto;
-}
+    }
 
-.code {
-    float:right;
-    display: inline-block;
-    width:1000px;
-    overflow-y:auto;
+.sidebar-wrapper {
+    top: 0px;
+    z-index: 2;
+    position: fixed;
+    width: 100%;
 }
 
 .logo {
@@ -24,4 +21,13 @@
     height: 40px;
     color: white;
     background-color: #616161;
+}
+
+.navbar {
+    margin-bottom: 0px;
+    min-height: 30px;
+}
+
+.code {
+    margin-top: 40px;
 }
