@@ -53,8 +53,10 @@
                         (apply dom/ul nil
                                (om/build-all sidebar-file-view (:files data))))))))
 
+(defn selected? [])
+
 (defn mark-line [data]
-  (js/alert "test"))
+  )
                                       
 (defn file-line-view [data owner]
   (reify
@@ -62,7 +64,7 @@
     (render [_] 
       (println data)
       (dom/div #js {:onClick #(mark-line data)
-                    :style #(selected?)} data))))
+                    :style (selected? "test")} data))))
 
 (defn file-view [data owner]
   (reify
@@ -71,7 +73,8 @@
       (dom/div #js {:className "panel panel-default"}
                (dom/div #js {:className "panel-heading"} (:path data)) 
                (apply dom/div #js {:className "panel-body"}
-                      (om/build-all file-line-view (string/split (:code data) "\n")))))))
+                      (om/build-all file-line-view (merge {:path (:path data)}
+                                                          {:code (string/split (:code data) "\n")})))))))
 
 (defn main-view [data owner]
   (reify
