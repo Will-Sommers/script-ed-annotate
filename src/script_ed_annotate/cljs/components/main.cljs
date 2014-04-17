@@ -1,0 +1,28 @@
+(ns script-ed-annotate.body 
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [cljs.core.async :as async :refer [<! chan close! put! sliding-buffer to-chan]]
+            [om.core :as om :include-macros true]
+            [om.dom :as dom :include-macros true]
+            [clojure.string :as string]))
+
+
+(defn file-view [data owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:className "panel panel-default"}
+               (dom/div #js {:className "panel-heading"} (:path data)) 
+               (dom/div #js {:className "panel-body"}
+                        (apply dom/div nil
+                               (map (fn [text] (dom/div #js {:onClick (fn [e] (.log js/console "test"))}
+                                                       text))
+                                    (string/split (get-in data [:file :code]) "\n"))))))))
+
+(defn main-view [data owner]
+  (reify
+    om/IRender
+    (render [_]
+      (println data)
+      (dom/div #js {:className "row code"} 
+               (apply dom/div #js {:className "col-xs-12"}
+                      (om/build-all file-view data))))))
